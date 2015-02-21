@@ -15,8 +15,7 @@ def lets_do_it(ticker, start_date, end_date):
 	add_data_sql(dicthist, ticker)
 
 def pull_hist_data(ticker, start_date, end_date):
-	ticksym = Share(ticker)
-	return ticksym.get_historical(start_date, end_date) 
+	return Share(ticker).get_historical(start_date, end_date) 
 
 def add_data_sql(dicthist, ticker):
 #Iterates over List of Dictionaries passed off from pull_hist_data fuction	
