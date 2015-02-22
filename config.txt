@@ -1,2 +1,2 @@
 
-user= pythoning password= dan520woo host= 192.168.0.22 database= financedata
+user= 'username' password= 'password' host= '192.168.0.10' database= 'database'
