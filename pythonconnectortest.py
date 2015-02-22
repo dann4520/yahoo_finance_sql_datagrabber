@@ -1,3 +1,4 @@
+#written using Python 2.7.8
 import mysql.connector
 from yahoo_finance import Share
 
@@ -5,9 +6,17 @@ from yahoo_finance import Share
 
 def lets_do_it(ticker, start_date, end_date):
 	global cnx
-	cnx = mysql.connector.connect(user='pythoning', password='dan520woo',
-	                              host='192.168.0.22',
-	                              database='financedata')
+	CONFIG_FILENAME = "config.txt"
+	inFile = open(CONFIG_FILENAME, 'r')
+	sqlLogin = inFile.read().split()
+	sqlConfig = {
+		'user': sqlLogin[1],
+		'password': sqlLogin[3],
+		'host': sqlLogin[5],
+		'database': sqlLogin[7],
+	}
+	cnx = mysql.connector.connect(**sqlConfig)
+
 	global cursor
 	cursor = cnx.cursor()
 	table_test(ticker + "_tbl")
@@ -24,7 +33,7 @@ def add_data_sql(dicthist, ticker):
 
 		add_day = ("INSERT INTO " + ticker + "_tbl" + """
 			   (date_fld, volume_fld, adjclose_fld) 
-               		   VALUES (%s, %s, %s)""")
+			   VALUES (%s, %s, %s)""")
 
 		data_day = (d['Date'], d["Volume"], d["Adj_Close"])
 		cursor.execute(add_day, data_day)
@@ -34,16 +43,16 @@ def add_data_sql(dicthist, ticker):
 
 def table_test(table_name):
 
-        stmt = ("SHOW TABLES LIKE %s ")
+	stmt = ("SHOW TABLES LIKE %s ")
 
-        cursor.execute(stmt, (table_name,))
-        result = cursor.fetchone()
-        if result:
-                print 'Table exists'
-                return True
-        else:
-                print 'Table does not exist'
-                create_table = ("CREATE TABLE " + table_name + """ 
+	cursor.execute(stmt, (table_name,))
+	result = cursor.fetchone()
+	if result:
+		print 'Table exists'
+		return True
+	else:
+		print 'Table does not exist'
+		create_table = ("CREATE TABLE " + table_name + """ 
 				(date_fld date, 
 				volume_fld int, 
 				adjclose_fld float)""") 
