@@ -58,6 +58,5 @@ def table_test(table_name):
 				adjclose_fld float)""") 
 		cursor.execute(create_table)
 
-#table_test(raw_input("please enter table name: "))
 
 lets_do_it(raw_input("Enter Ticker: "), raw_input("Enter Start Date: "), raw_input("Enter End Date :"))
