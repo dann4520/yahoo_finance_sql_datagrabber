@@ -35,10 +35,13 @@ def add_data_sql(dicthist, ticker):
 #Places data specified into SQL database table.
 #In each iteration table is checked to see if date already exists and skips if it does.
 	table_name = ticker + "_tbl"
+	date_fld = table_name + "date"
+	volume_fld = table_name + "volume"
+	adjclose_fld = table_name + "adjclose"
 	skipcount = 0
 	incount = 0
 	for d in dicthist:
-		stmt = ("SELECT " + table_name + "date " + "FROM " + table_name + " WHERE " + table_name + "date " + "= %s ")
+		stmt = ("SELECT " + date_fld + " FROM " + table_name + " WHERE " + date_fld + " = %s ")
 		cursor.execute(stmt, (d['Date'],))
 		result = cursor.fetchone()
 		if result:
@@ -48,7 +51,7 @@ def add_data_sql(dicthist, ticker):
 			
 		else:
 			add_day = ("INSERT INTO " + table_name + " (" +
-				   table_name + "date, " + table_name + "volume, " + table_name + "adjclose) " +
+				   date_fld + ", " + volume_fld + ", " + adjclose_fld + ") " +
 				   "VALUES (%s, %s, %s)")
 
 			data_day = (d['Date'], d["Volume"], d["Adj_Close"])
