@@ -6,6 +6,7 @@ from yahoo_finance import Share
 
 def lets_do_it(ticker, start_date, end_date):
 	global cnx
+	global cursor
 	CONFIG_FILENAME = "config.txt"
 	inFile = open(CONFIG_FILENAME, 'r')
 	sqlLogin = inFile.read().split()
@@ -17,7 +18,6 @@ def lets_do_it(ticker, start_date, end_date):
 	}
 	cnx = mysql.connector.connect(**sqlConfig)
 
-	global cursor
 	cursor = cnx.cursor()
 	table_test(ticker + "_tbl")
 	print "Table check done"
@@ -61,11 +61,13 @@ def add_data_sql(dicthist, ticker):
 
 	cnx.commit()
 	cnx.close()
-	print str(skipcount) + " records skipped"
-	print str(incount) + " records inserted"
+	print str(skipcount) + " Records skipped"
+	print str(incount) + " Records inserted"
 def table_test(table_name):
 #Checks database for existing table and creates it if it does not.
-
+	date_fld = table_name + "date"
+	volume_fld = table_name + "volume"
+	adjclose_fld = table_name + "adjclose"
 	stmt = ("SHOW TABLES LIKE %s ")
 
 	cursor.execute(stmt, (table_name,))
@@ -76,10 +78,10 @@ def table_test(table_name):
 	else:
 		print 'Table does not exist'
 		create_table = ("CREATE TABLE " + table_name + " (" + 
-				table_name + "date date, " + table_name + "volume int, " + table_name + "adjclose float)") 
+				date_fld + " date, " + volume_fld + " int, " + adjclose_fld + " float)") 
 				
 		cursor.execute(create_table)
 		print 'Table created'
 
 
-lets_do_it(raw_input("Enter Ticker: "), raw_input("Enter Start Date: "), raw_input("Enter End Date : "))
+lets_do_it(raw_input("Enter Ticker: "), raw_input("Enter Start Date: "), raw_input("Enter End Date: "))
