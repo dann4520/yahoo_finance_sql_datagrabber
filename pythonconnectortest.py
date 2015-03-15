@@ -35,6 +35,10 @@ def add_data_sql(dicthist, ticker):
 #Places data specified into SQL database table.
 #In each iteration table is checked to see if date already exists and skips if it does.
 	table_name = ticker + "_tbl"
+	if table_name[0] == '^':
+		table_name = 'index' + table_name[1: len(table_name)]
+	#added if statement to check for '^' since yahoo using this symbol to
+	#signify an index
 	date_fld = table_name + "date"
 	volume_fld = table_name + "volume"
 	adjclose_fld = table_name + "adjclose"
@@ -65,6 +69,8 @@ def add_data_sql(dicthist, ticker):
 	print str(incount) + " Records inserted"
 def table_test(table_name):
 #Checks database for existing table and creates it if it does not.
+	if table_name[0] == '^':
+		table_name = 'index' + table_name[1: len(table_name)]
 	date_fld = table_name + "date"
 	volume_fld = table_name + "volume"
 	adjclose_fld = table_name + "adjclose"
