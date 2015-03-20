@@ -7,6 +7,7 @@ from yahoo_finance import Share
 def lets_do_it(ticker, start_date, end_date):
 	global cnx
 	global cursor
+	ticker = ticker.lower()
 	CONFIG_FILENAME = "config.txt"
 	inFile = open(CONFIG_FILENAME, 'r')
 	sqlLogin = inFile.read().split()
@@ -34,6 +35,7 @@ def add_data_sql(dicthist, ticker):
 #Iterates over List of Dictionaries passed off from pull_hist_data fuction	
 #Places data specified into SQL database table.
 #In each iteration table is checked to see if date already exists and skips if it does.
+	ticker = ticker.lower()
 	table_name = ticker + "_tbl"
 	if table_name[0] == '^':
 		table_name = 'index' + table_name[1: len(table_name)]
