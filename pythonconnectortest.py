@@ -53,8 +53,7 @@ def add_data_sql(dicthist, ticker):
 		if result:
 			print "Skipped"
 			skipcount += 1
-			next
-			
+						
 		else:
 			add_day = ("INSERT INTO " + table_name + " (" +
 				   date_fld + ", " + volume_fld + ", " + adjclose_fld + ") " +
