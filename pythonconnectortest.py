@@ -114,7 +114,8 @@ def table_test(table_name, labelString):
 root = Tk()
 root.title("Dan Investment Helper")
 
-mainframe = ttk.Frame(root, padding="200 200 200 200")
+note = ttk.Notebook(root)
+mainframe = ttk.Frame(note, padding="200 200 200 200")
 mainframe.grid(column=0, row=0, sticky=(N, W, E, S))
 mainframe.columnconfigure(0, weight=1)
 mainframe.rowconfigure(0, weight=1)
@@ -140,6 +141,9 @@ ticker_entry.grid(column=3, row=2, sticky=(W, E))
 # Button that sends entry data to Main() function
 ttk.Button(mainframe, text="Download Historical Data", command=Main).grid(column=1, row=3, sticky=W)
 
+# Quit Button
+ttk.Button(mainframe, text="Exit", command=root.destroy).grid(column=3, row=3, sticky=W)
+
 # Make debug window
 debugOutput = StringVar()
 ttk.Label(mainframe, textvariable=debugOutput,).grid(column=1, row=4, columnspan=3, sticky=(W, E))
@@ -150,5 +154,17 @@ ttk.Label(mainframe, textvariable=debugOutput,).grid(column=1, row=4, columnspan
 # put fancy padding around all gui elements
 for child in mainframe.winfo_children(): child.grid_configure(padx=5, pady=5)
 
+# Future view data frame
+viewframe = ttk.Frame(note, padding="200 200 200 200")
+viewframe.grid(column=0, row=0, sticky=(N, W, E, S))
+viewframe.columnconfigure(0, weight=1)
+viewframe.rowconfigure(0, weight=1)
+
+ttk.Label(viewframe, text="Future Data Viewer Area").grid(column=0, row=0, sticky=(W, E))
+
+# adds frames to Notebook (Builds Tabs)
+note.add(mainframe, text="Import Data")
+note.add(viewframe, text="View Data")
+note.pack()
 # run the Tkinter mainloop
 root.mainloop()
